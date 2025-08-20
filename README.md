@@ -7,7 +7,7 @@ The paper "‘Backpropagation and the brain’ realized in cortical error neuron
 To get started, open a terminal and run:
 ```
 git clone https://github.com/kma-code/Error-Neuron-Microcircuits
-cd numpy_model
+cd Error-Neuron-Microcircuits/numpy_model
 python3 -m venv MCenv
 source MCenv/bin/activate
 pip3 install -r requirements.txt
