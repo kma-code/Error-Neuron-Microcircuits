@@ -73,9 +73,9 @@ To do so, modify the slurm file template in this folder, and replace any instanc
 
 ## Figure 2a: cartpole
 
-`python runner.py --params experiments/Fig2a_cartpole_ideal_emc/params.json`
+`python runner.py --params experiments/Fig2a_cartpole_ideal_emc/params_errormc.json`
 
-`python runner.py --params experiments/Fig2a_cartpole_tanh_emc/params.json`
+`python runner.py --params experiments/Fig2a_cartpole_tanh_emc/params_errormc.json`
 
 For plots, open `cart-pole plot.ipynb` in jupyter lab.
 
