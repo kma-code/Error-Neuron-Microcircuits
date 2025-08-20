@@ -13,4 +13,4 @@ source MCenv/bin/activate
 pip3 install -r requirements.txt
 python -m ipykernel install --user --name=MCenv 
 ```
-Go to https://github.com/kma-code/Error-Neuron-Microcircuits/numpy_model to run simulations reproducing the figures in the paper.
+Go to [https://github.com/kma-code/Error-Neuron-Microcircuits/numpy_model](https://github.com/kma-code/Error-Neuron-Microcircuits/tree/main/numpy_model) to run simulations reproducing the figures in the paper.
