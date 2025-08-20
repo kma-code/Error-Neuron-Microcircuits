@@ -93,6 +93,9 @@ This is a large simulation, so we run a batch command:
 
 `bash run_Fig3_multilayer_comparison.sh`
 
+> [!CAUTION]
+> This will start many jobs and can freeze your system. Use slurm to manage jobs (see above). If you want to quit all running jobs, run `killall Python` (make sure no other python scripts are running which you don't want to kill).
+
 Results are saved in `experiments/Fig3_multilayer_comparison/`.
 
 For plots, open `generate figs from runs.ipynb` in jupyter lab.
