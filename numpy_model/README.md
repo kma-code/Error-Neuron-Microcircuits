@@ -73,38 +73,58 @@ To do so, modify the slurm file template in this folder, and replace any instanc
 
 ## Figure 2a: cartpole
 
-Run `python runner.py --params experiments/Fig2a_cartpole_ideal_emc/` and `python runner.py --params experiments/Fig2a_cartpole_tanh_emc/`.
+`python runner.py --params experiments/Fig2a_cartpole_ideal_emc/params.json`
+`python runner.py --params experiments/Fig2a_cartpole_tanh_emc/params.json`
+
+For plots, open `cart-pole plot.ipynb` in jupyter lab.
 
 ## Figure 2b: DMS task
 
-Run `python DMS_task.py`.
+`python DMS_task.py`.
+
 Results are saved in `experiments/Fig2b_DMS_plots/`
+
+For plots, open `generate figs from runs.ipynb` in jupyter lab.
 
 ## Figure 3: multilayer comparison
 
 This is a large simulation, so we run a batch command:
-run `run_Fig3_multilayer_comparison.sh`
-Results are saved in `experiments/Fig3_multilayer_comparison/`
+
+`bash run_Fig3_multilayer_comparison.sh`
+
+Results are saved in `experiments/Fig3_multilayer_comparison/`.
+
+For plots, open `generate figs from runs.ipynb` in jupyter lab.
 
 For appendix runs:
-run `run_FigA1_multilayer_comparison_hierarchical.sh`
-run `run_FigA2_multilayer_comparison_ideal_lat_inh.sh`
+
+`bash run_FigA1_multilayer_comparison_hierarchical.sh`
+`bash run_FigA2_multilayer_comparison_ideal_lat_inh.sh`
 
 For non-linear implementation of dendritic hierarchical PC:
-run `run_FigC1_nonlinear_dPC.sh`
+
+`bash run_FigC1_nonlinear_dPC.sh`
 
 ## Figure 4: populations
 
 This is a large simulation, so we run a batch command:
-run `run_Fig3_multilayer_comparison.sh`
+
+`bash run_Fig4_populations.sh`
+
+For plots, open `generate figs from runs.ipynb` in jupyter lab.
 
 ## Figure 5: noise
 
 This is a large simulation, so we run a batch command:
-run `run_Fig3_multilayer_comparison.sh`
 
-## Figure 8: 
+`bash run_Fig5_noise.sh`
+
+For plots, open `generate figs from runs.ipynb` in jupyter lab.
+
+## Figure 8: varphi' transfer
 
 Open `varphi' transfer.ipynb` in jupyter lab.
+
+For plots, open `generate figs from runs.ipynb` in jupyter lab.
 
 

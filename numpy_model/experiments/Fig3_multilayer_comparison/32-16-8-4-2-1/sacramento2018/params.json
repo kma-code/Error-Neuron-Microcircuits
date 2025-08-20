@@ -1,0 +1,165 @@
+{
+    "_comment": "GENERAL NOTE: optional arguments should be left in, as the runner does not check whether a param is required for a model and may cause an interrupt.",
+
+    "_comment": "define the model: either sacramento2018 (interneuron dendritic MC) or errormc",
+    "mc_model": "sacramento2018",
+    "_comment": "define the model for teacher: either sacramento2018 (interneuron dendritic MC), errormc or ann",
+    "teacher_mc_model": "ann",
+
+    "_comment": "all times below are in milliseconds",
+    "dt": 1e-2,
+    "Tpres": 0.2,
+    "_comment": "below only relevant for PAL",
+    "dtxi": 1e-2,
+    "tauHP": 1e-1,
+    "tauLO": 1e+2,
+    "tauxi": 1e-1,
+
+    "_comment": "dataset_size: how many samples to present",
+    "dataset_size": 100,
+    "epochs": 1000,
+    "_comment": "time (in ms) for pre-training to settle voltages",
+    "settling_time": 20,
+    
+    "layers": [32, 16, 8, 4, 2, 1],
+    "_comment": "Number of error neurons. In keeping in line with 'layers', this has the same shape -- so the first entry will be ignored (!)",
+    "error_layers": [0, 16, 8, 4, 2, 1],
+
+    "_comment": "implemented activations: logistic, hard_sigmoid, relu, soft_relu, linear, tanh",
+    "activation": "tanh",
+    "error_activation": "linear",
+
+    "_comment": "implemented models: BP, FA or PAL",
+    "model_type": "BP",
+
+    "_comment": "noise level in setting transpose weights (BP only)",
+    "WT_noise": 0.5,
+
+    "_comment": "PAL: noise type: white noise held or OU",
+    "noise_type": "OU",
+     "_comment": "PAL: sampled noise is rescaled by noise_scale",
+    "noise_scale": [0e-2],
+    "_comment": "PAL and uP_adaptive-only: noise_deg is the angle of alignment between uP_breve_i and BPP_iL * rP_breve_L below which no noise is injected",
+    "_comment": "                             i.e. we are satisfied with this amount of alignment",
+    "noise_deg": 30,
+    "_comment": "PAL: implemented modes: uP (scale noise with uP), vapi (scale noise with vapi) and uP_adaptive (scale noise with uP and angle of alignment)",
+    "noise_mode": "const",
+
+    "gl": 0.03,
+    "gbas": 0.1,
+    "gapi": 0.06,
+    "gden": 0.1,
+    "gnI": 0.06,
+    "gntgt": 0.06,
+
+    
+    "eta_fw": [1, 0.2, 0.1, 0.05, 0.01],
+    "eta_bw": [0],
+    "eta_IP": [0.4, 0.2, 0.1, 0.02],
+    "eta_PI": [0, 0, 0, 0],
+
+    "_comment": "whether to use the voltage (sacramento2018) or rate (errormc) as target",
+    "target_rate": false,
+
+
+    "_comment": "errormc only: whether to start lateral weights as identity matrix",
+    "init_WIP_identity": true,
+    "init_BPI_identity": true,
+
+    "_comment": "weights are initialised as numpy.random.uniform with range defined below. WIP and BPI are overridden by init_in_SPS=True",
+    "init_WPP_range": [-1, 1],
+    "_comment": "FA and PAL only: range of BPP",
+    "init_BPP_range": [-1, 1],
+    "_comment": "lateral weight inits for student. errormc: this is added to to the identity, if enabled",
+    "init_BPI_range": [ 0, 0],
+    "init_WIP_range": [ 0, 0],
+
+    "_comment": "weight inits for teacher",
+    "init_teacher_WPP_range": [-1, 1],
+    "init_teacher_BPI_range": [ 0, 0],
+    "_comment": "lateral weight inits for teacher. errormc: this is added to to the identity, if enabled",
+    "init_teacher_WIP_range": [ 0, 0],
+    "init_teacher_BPP_range": [-1, 1],
+
+    "_comment": "errormc only: whether to use skip forward connections ('skip' or 'layered')",
+    "fw_connection_mode": "layered",
+    "_comment": "errormc only: range for skip connections in WPP",
+    "WPP_skip_connection_range": [ 0, 0],
+
+    "_comment": "errormc only: whether to use skip backward connections ('skip' or 'layered')",
+    "bw_connection_mode": "layered",
+    "_comment": "errormc only: range for skip connections in BII",
+    "BII_skip_connection_range": [0, 0],
+
+    "_comment": "noise on activation function slope (normal sampling about 1.0)",
+    "activation_noise_std": 0.0,
+
+    "_comment": "PAL only: alpha is the scaling factor of the regularizer",
+    "alpha": [1e-6, 1e-6, 1e-6],
+
+    "_comment": "array of seeds",
+    "random_seed": [56789, 12345, 23456, 34567, 76543, 111, 222, 333, 444, 555],
+
+    "_comment": "whether to set *the* self-predicting state during initialisation",
+    "init_in_SPS": true,
+
+    "_comment": "PAL only: low-pass on interneuron",
+    "inter_low_pass": false,
+    "_comment": "PAL only: high-pass on output layer pyramidal neurons",
+    "pyr_hi_pass": false,
+    "_comment": "PAL only: low-pass on updates of WPP",
+    "dWPP_low_pass": false,
+    "dWPP_r_low_pass": false,
+    "dWPP_post_low_pass": false,
+    "_comment": "PAL only: whether to apply regularizer only if rP_breve > 0",
+    "gate_regularizer": false,
+    "_comment": "whether to use activations in dWPP -- standard: true",
+    "dWPP_use_activation": true,
+    "_comment": "errormc only: whether to send phi' to error units",
+    "varphi_transfer": false,
+
+    "_comment": "input signal, possibilites: step",
+    "input_signal": "step",
+
+    "_comment": "copy the weights and voltages of teacher at init (for testing)",
+    "copy_teacher_weights": false,
+    "copy_teacher_voltages": false,
+
+    "rec_per_steps": 2000,
+    "rec_MSE": true,
+    "rec_rate_MSE": true,
+    "rec_error": false,
+    "rec_input": false,
+    "rec_target": false,
+
+    "rec_WPP": true,
+    "rec_WIP": true,
+    "rec_BPP": true,
+    "rec_BII": false,
+    "rec_BPI": true,
+
+    "rec_dWPP": false,
+    "rec_dWIP": false,
+    "rec_dBPP": false,
+    "rec_dBII": false,
+    "rec_dBPI": false,
+
+    "rec_uP": false,
+    "rec_uP_breve": false,
+    "rec_rP_breve": false,
+    "rec_rP_breve_HI": false,
+    "rec_uI": false,
+    "rec_uI_breve": false,
+    "rec_rI_breve": false,
+
+    "rec_vbas": true,
+    "rec_vapi": false,
+    "rec_vapi_noise": false,
+    "rec_noise": false,
+    "rec_epsilon": false,
+    "rec_epsilon_LO": false,
+    "rec_lat_mismatch": false
+
+}
+
+
