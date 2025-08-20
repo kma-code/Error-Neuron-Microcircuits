@@ -3,8 +3,8 @@ for net in 2-1 4-2-1 8-4-2-1 16-8-4-2-1 32-16-8-4-2-1
 do
         for model in dPC
         do
-                python runner.py --params experiments/$DIRECTORY/$net/$model/params.json --task fw_only --compare BP &  
-                python runner.py --params experiments/$DIRECTORY/$net/untrained_$model/params.json --task fw_only --compare BP &  
+                python runner.py --params $DIRECTORY/$net/$model/params.json --task fw_only --compare BP &  
+                python runner.py --params $DIRECTORY/$net/untrained_$model/params.json --task fw_only --compare BP &  
         done
 done
 
@@ -13,8 +13,8 @@ for net in 2-1 4-2-1 8-4-2-1 16-8-4-2-1 32-16-8-4-2-1
 do
         for model in dPC
         do
-                python runner.py --params experiments/$DIRECTORY/$net/$model/params.json --task fw_only --compare BP &  
-                python runner.py --params experiments/$DIRECTORY/$net/untrained_$model/params.json --task fw_only --compare BP &  
+                python runner.py --params $DIRECTORY/$net/$model/params.json --task fw_only --compare BP &  
+                python runner.py --params $DIRECTORY/$net/untrained_$model/params.json --task fw_only --compare BP &  
         done
 done
 
@@ -23,7 +23,7 @@ for net in 2-1 4-2-1 8-4-2-1 16-8-4-2-1 32-16-8-4-2-1
 do
         for model in dPC
         do
-                python runner.py --params experiments/$DIRECTORY/$net/$model/params.json --task fw_only --compare BP &  
-                python runner.py --params experiments/$DIRECTORY/$net/untrained_$model/params.json --task fw_only --compare BP &  
+                python runner.py --params $DIRECTORY/$net/$model/params.json --task fw_only --compare BP &  
+                python runner.py --params $DIRECTORY/$net/untrained_$model/params.json --task fw_only --compare BP &  
         done
 done
