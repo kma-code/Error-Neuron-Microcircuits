@@ -28,7 +28,7 @@ except:
 	plt.rcParams['text.usetex'] = False
 	plt.rc('font', size=10,family='serif')
 
-PATH = 'experiments/DMS_plots/'
+PATH = 'experiments/Fig2b_DMS_plots/'
 
 # common parameters
 dt = 0.01 # in ms

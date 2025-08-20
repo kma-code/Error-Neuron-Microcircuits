@@ -11,6 +11,7 @@ Modify it, and run using `python runner.py  --params example/params_template.jso
 - all plots are saved in `example`, together with a `model.pkl` file of the microcircuit class objects after training
 - models are saved after training and once again after plotting. To load and re-plot a saved model, run `python runner.py --params .../params.json  --load .../model.pkl`.
 
+
 ### General hints
 
 All parameters are explained in the [params.json](https://github.com/kma-code/Error-Neuron-Microcircuits/tree/main/numpy_model/example/params_template.json) files.
@@ -27,14 +28,6 @@ Some more tips:
 
 Data is recorded in lists such as `uP_breve_time_series`. Every class object (i.e. every microcircuit model) saves its own time series, which can be called with e.g. `mc1.uP_breve_time_series`. Every time series has the index structure `uP_breve_time_series[recorded time step][layer][neuron index]` for voltages and rates; weight time series are of the form `WPP_breve_time_series[recorded time step][layer][weight index]`.
 
-For historical reasons, the neuron populations have names `uP` and `uI`. For each model, this corresponds to:
-- errormc: `uP` are representation neurons, `uI` are error neurons
-- ann: `uP` are neurons, `uI` are only auxiliary variables
-- sacramento2018: `uP` are pyramidal neurons, `uI` are interneurons
-- dPC: `uP` are pyramidal neurons, `uI` are only auxiliary variables
-
-Keep in mind that the `layer` variable always starts from zero. So e.g. for the interneuron recordings, `uI_time_series[-1][0][1]` returns the voltage of the second neuron in the final (and only) layer of interneurons at the end of training.
-
 To load a saved .pkl-file in an interactive Python session, go to the folder where `runner.py` is located, run `python`, and
 
 ```
@@ -47,50 +40,71 @@ After loading this, `input[0]` represents the teacher model (if it was initiated
 
 
 
+### Nomenclature:
 
+For historical reasons, the neuron populations have variable names `uP` and `uI`. For each model, this corresponds to:
+- errormc: `uP` are representation neurons, `uI` are error neurons
+- ann: `uP` are neurons, `uI` are only auxiliary variables
+- sacramento2018: `uP` are pyramidal neurons, `uI` are interneurons
+- dPC: `uP` are pyramidal neurons, `uI` are only auxiliary variables
 
-
-## Commands to reproduce plots
-
-- Fig3abc: `python runner.py --params experiments/Fig3abc/params.json --task bw_only --compare BP`
-- Fig3def: `python runner.py --params experiments/Fig3def/params.json --task bw_only --compare BP`
-- Fig4ab: `python runner.py --params experiments/Fig4ab/PAL/params.json --task fw_bw --compare BP`
-
-These runs will take about 90 minutes on a high-end GPU (tested on Tesla P100).
-
-## Nomenclature:
-- base variable `uP` is the array of vectors of somatic potentials of pyramidal cells
-- base variable `uI` is the array of vectors of somatic potentials of interneurons
+Variables (based on variable names of errormc):
+- base variable `uP` is the array of vectors of somatic potentials of representation units
+- base variable `uI` is the array of vectors of somatic potentials of error neurons
 - variables with `_breve` are the lookahead of base variables
 - `rX_breve` is the instantaneous rate based on a the corresponding lookahead voltage `uX_breve`
-- `WPP` are weights connecting pyramidal neurons in one layer to the next (including input to first layer)
-- `BPP` are weights connecting pyramidal neurons in one layer to pyramidal cells in layer below
-- `WIP` are lateral weights from pyramidal cells to interneurons
-- `BPI` are lateral weights form interneurons to pyramidal cells (called `WPI` in arXiv:1810.11393)
+- `WPP` are weights connecting representation neurons in one layer to the next (including input to first layer)
+- `BII` are weights connecting error neurons in one layer to error cells in layer below
+- `WIP` are lateral weights from representation cells to error neurons
+- `BPI` are lateral weights form error neurons to representation cells
 
-Defintions of the classes `base_model` and `noise_model` are given in `microcircuit.py`.
-- `base_model` implements backprop (by setting WPP = BPP.T) and feedback alignment on the classic dendritic MC model of arXiv:1810.11393
-- `noise_model` implements our algorithm PAL to learn BPP
 
-Parameters: see `params.json` example file for all required paramters. Some relevant information:
-- `dt`: step size for Euler solver in ms. Standard: `1e-2`
-- `Tpres`: presentation time in ms. Standard: `1` 
+Keep in mind that the `layer` variable always starts from zero. So e.g. for the interneuron recordings, `uI_time_series[-1][0][1]` returns the voltage of the second neuron in the final (and only) layer of interneurons at the end of training.
 
-Relevant parameters for PAL:
-- `dtxi`: after how many ms to sample new noise. Standard: set to `dt`.
-- `tauxi`: time constant of Ornstein-Uhlenbeck noise. Standard: `10 * dt`
-- `tauHP`: time constant of high-pass filter. Standard: `10 * dt`
-- `tauLO`: time constant of low-pass filter of synaptic weight updates. Standard: `1e+4 * dt`
 
-Tasks currently implemented:
-- 'bw_only': learning the backwards weights with no teaching signal
-- 'fw_bw': feeding input into a teacher network, recording its output; feeding same input into learning network and learning the forward and backward weights simultaneously.
 
-Input signal:
-- Steps sampled from U[0,1] held for Tpres
 
-There are two ways to run the experiments:
-- check out the [Jupyter notebook](https://github.com/kma-code/Phaseless-Alignment-Learning/blob/master/PAL%20MC/PAL%20simple%20demo.ipynb), where all steps are explained
-- run the standalone python script by invoking `runner.py`. See below on usage.
 
-While I have implemented multiprocessing in the standalone script, everything still runs on numpy, so the experiments should be kept fairly small.
+
+# Commands to reproduce plots
+
+Note that the code provided here runs on the local machine for compatibility. Due to long simulation times, it is best to run jobs as slurm jobs.
+To do so, modify the slurm file template in this folder, and replace any instance of `python runner.py` with `sbatch slurm_script.sh python runner.py` (and similarly for `DMS_task.py` etc).
+
+## Figure 2a: cartpole
+
+Run `python runner.py --params experiments/Fig2a_cartpole_ideal_emc/` and `python runner.py --params experiments/Fig2a_cartpole_tanh_emc/`.
+
+## Figure 2b: DMS task
+
+Run `python DMS_task.py`.
+Results are saved in `experiments/Fig2b_DMS_plots/`
+
+## Figure 3: multilayer comparison
+
+This is a large simulation, so we run a batch command:
+run `run_Fig3_multilayer_comparison.sh`
+Results are saved in `experiments/Fig3_multilayer_comparison/`
+
+For appendix runs:
+run `run_FigA1_multilayer_comparison_hierarchical.sh`
+run `run_FigA2_multilayer_comparison_ideal_lat_inh.sh`
+
+For non-linear implementation of dendritic hierarchical PC:
+run `run_FigC1_nonlinear_dPC.sh`
+
+## Figure 4: populations
+
+This is a large simulation, so we run a batch command:
+run `run_Fig3_multilayer_comparison.sh`
+
+## Figure 5: noise
+
+This is a large simulation, so we run a batch command:
+run `run_Fig3_multilayer_comparison.sh`
+
+## Figure 8: 
+
+Open `varphi' transfer.ipynb` in jupyter lab.
+
+
