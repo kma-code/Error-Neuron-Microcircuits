@@ -1,0 +1,19 @@
+# math & plotting
+numpy==1.26.4
+matplotlib==3.10.3
+
+# python tools
+ipykernel==6.29.5
+dill==0.4.0
+multiprocess==0.70.18
+
+# learning
+scikit-learn==1.7.0
+
+# workflow
+#sacred
+#tqdm
+
+# torch
+torch==2.2.2
+torchvision==0.17.2
