@@ -1,6 +1,6 @@
 # Numpy implementation of error neuron microcircuits
 
-This folder contains all files to reproduce all figures, simulating our error microcircuit (`errormc`), the model by Sacramento et al., 2018 (`sacramento2018`), and a layered ANN (`ann`).
+This folder contains all files to reproduce all figures, simulating our error microcircuit (`errormc`), the model by Sacramento et al., 2018 (`sacramento2018`), the one of Mikulasch et al., 2022 (`dPC`), and a layered ANN (`ann`).
 
 ## Using a parameter file template
 
@@ -13,17 +13,25 @@ Modify it, and run using `python runner.py  --params example/params_template.jso
 
 ### General hints
 
-For learing rate `eta_fw`: errormc has `fw_connection_mode` `layered` and `skip`.
-- For layered, `eta_fw` should be list with #entries same as `len(WPP_init)`.
-- For skip, `eta_fw` should be list of lists with #entries same as `len(layers) x len(layers)`. The diagonal entries will be ignored (no recurrency), same for top-right (those would be backward connections).
-- implemented models are `BP`, `FA` and `PAL`
-- time parameters (`dt, dtxi, tauHP, tauLO, Tpres`) are defined in milliseconds. Their meaning is explained above.
+All parameters are explained in the [params.json](https://github.com/kma-code/Error-Neuron-Microcircuits/tree/main/numpy_model/example/params_template.json) files.
+
+Some more tips:
+- for learning rate `eta_fw`: errormc has `fw_connection_mode` `layered` and `skip`. `eta_fw` must be a list.
+-- if `layered`, entries of `eta_fw` correspond to layer-wise learning rates; example: `"eta_fw": [1, 0.2, 0.05]` for a 3-layer network.
+-- if `skip`, you need to specify how the list is used to determine learning rates of skip connections. Options are: 'fill_diag' (do not train skip connections), 'fill_all' (each efferent weight has same learning rate), 'fill_scaled' (same as fill_all, but using `realistic_connectivity` to scale learning rates).
+- `model_type` denotes how backward weights are set; implemented models are `BP`, `FA`
 - *seeds* in `params.json` is an array of numpy random seeds (not a number of seeds)
-- *input_signal* in `params.json` defines the signal fed into teacher and students. Currently implemented options: `step`
+- *input_signal* in `params.json` defines the signal fed into teacher and students. Currently implemented options: `step, cartpole, genMNIST`
 - setting *rec_per_steps* to anything below 1/dt (standard: 1000) slows down training and generates large .pkl files
 - recording too many variables slows down training significantly
 
 Data is recorded in lists such as `uP_breve_time_series`. Every class object (i.e. every microcircuit model) saves its own time series, which can be called with e.g. `mc1.uP_breve_time_series`. Every time series has the index structure `uP_breve_time_series[recorded time step][layer][neuron index]` for voltages and rates; weight time series are of the form `WPP_breve_time_series[recorded time step][layer][weight index]`.
+
+For historical reasons, the neuron populations have names `uP` and `uI`. For each model, this corresponds to:
+- errormc: `uP` are representation neurons, `uI` are error neurons
+- ann: `uP` are neurons, `uI` are only auxiliary variables
+- sacramento2018: `uP` are pyramidal neurons, `uI` are interneurons
+- dPC: `uP` are pyramidal neurons, `uI` are only auxiliary variables
 
 Keep in mind that the `layer` variable always starts from zero. So e.g. for the interneuron recordings, `uI_time_series[-1][0][1]` returns the voltage of the second neuron in the final (and only) layer of interneurons at the end of training.
 
@@ -31,10 +39,16 @@ To load a saved .pkl-file in an interactive Python session, go to the folder whe
 
 ```
 import src.save_exp
-import pickle
-with open('run03_teacher/model.pkl', 'rb') as f: input = pickle.load(f)
+import dill
+with open('model.pkl', 'rb') as f: input = dill.load(f)
 ```
 After loading this, `input[0]` represents the teacher model (if it was initiated) and other elements are student networks.
+
+
+
+
+
+
 
 ## Commands to reproduce plots
 

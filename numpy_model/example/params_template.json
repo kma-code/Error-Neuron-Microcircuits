@@ -1,9 +1,9 @@
 {
     "_comment": "GENERAL NOTE: optional arguments should be left in, as the runner does not check whether a param is required for a model and may cause an interrupt.",
 
-    "_comment": "define the model: either 'sacramento2018' (interneuron dendritic MC), 'errormc' or 'ann'",
+    "_comment": "define the model: either sacramento2018 (interneuron dendritic MC), dPC or errormc",
     "mc_model": "errormc",
-    "_comment": "define the model for teacher: either 'sacramento2018' (interneuron dendritic MC), 'errormc' or 'ann'",
+    "_comment": "define the model for teacher: either sacramento2018 (interneuron dendritic MC), errormc or ann",
     "teacher_mc_model": "ann",
 
     "_comment": "all times below are in milliseconds",
