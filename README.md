@@ -4,7 +4,7 @@ This repo contains experiments for error neuron microcircuits on .
 The paper "‘Backpropagation and the brain’ realized in cortical error neuron microcircuits" by Kevin Max, Ismael Jaras, Arno Granier, Katharina A. Wilmes, Mihai A. Petrovici is available at https://www.biorxiv.org/content/10.1101/2025.07.11.664263v1
 
 
-To start, open a terminal and run:
+To get started, open a terminal and run:
 ```
 git clone https://github.com/kma-code/Error-Neuron-Microcircuits
 cd numpy_model
@@ -13,3 +13,4 @@ source MCenv/bin/activate
 pip3 install -r requirements.txt
 python -m ipykernel install --user --name=MCenv 
 ```
+Go to https://github.com/kma-code/Error-Neuron-Microcircuits/numpy_model to run simulations reproducing the figures in the paper.
