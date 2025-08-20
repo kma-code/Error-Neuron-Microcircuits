@@ -74,13 +74,14 @@ To do so, modify the slurm file template in this folder, and replace any instanc
 ## Figure 2a: cartpole
 
 `python runner.py --params experiments/Fig2a_cartpole_ideal_emc/params.json`
+
 `python runner.py --params experiments/Fig2a_cartpole_tanh_emc/params.json`
 
 For plots, open `cart-pole plot.ipynb` in jupyter lab.
 
 ## Figure 2b: DMS task
 
-`python DMS_task.py`.
+`python DMS_task.py`
 
 Results are saved in `experiments/Fig2b_DMS_plots/`
 
@@ -99,6 +100,7 @@ For plots, open `generate figs from runs.ipynb` in jupyter lab.
 For appendix runs:
 
 `bash run_FigA1_multilayer_comparison_hierarchical.sh`
+
 `bash run_FigA2_multilayer_comparison_ideal_lat_inh.sh`
 
 For non-linear implementation of dendritic hierarchical PC:
