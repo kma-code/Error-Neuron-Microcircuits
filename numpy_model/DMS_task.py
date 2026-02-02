@@ -28,13 +28,13 @@ except:
 	plt.rcParams['text.usetex'] = False
 	plt.rc('font', size=10,family='serif')
 
-PATH = 'experiments/Fig2b_DMS_plots/'
+PATH = 'experiments/DMS_plots/'
 
 # common parameters
 dt = 0.01 # in ms
 tauxi = None
 Tpres = 0.0
-epochs = 15
+epochs = 10
 N_SEEDS = 10
 train_samples = 50
 val_samples = 50
@@ -60,7 +60,7 @@ init_BPI_range = [-0.3, 0.3]
 init_WIP_range = [-0.3, 0.3]
 
 # learning rates in 1/ms
-eta_fw = [1000.0,1000.0]
+eta_fw = [4000.0,4000.0]
 eta_bw = [0.0] * (len(layers) - 2)
 eta_IP = [0.0] * (len(layers) - 1)
 eta_PI = [0.0] * (len(layers) - 1)
@@ -428,6 +428,12 @@ if __name__ == '__main__':
 		seed = i + np.random.randint(12345)
 		MC_list.append(init_mc(seed=seed))
 		MC_list[-1].seed = seed
+		MC_list[-1].input_train = input_train
+		MC_list[-1].target_train = target_train
+		MC_list[-1].input_val = input_val
+		MC_list[-1].target_val = target_val
+		MC_list[-1].input_test = input_test
+		MC_list[-1].target_test = target_test
 
 	N_PROCESSES = len(MC_list) if N_MAX_PROCESSES > len(MC_list) else N_MAX_PROCESSES
 
